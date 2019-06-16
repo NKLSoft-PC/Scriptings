@@ -1,5 +1,0 @@
-#PRAGMA AUTORECOVER
-#pragma namespace("\\\\.\\Root\\WMI")
-  
-#pragma DeleteClass("Wudfx02000KmdfTraceGuid", NOFAIL)
-
