@@ -1,16 +1,9 @@
 ECHO OFF
 CLS
-set Drive="%cd:~0,2%\"
-set pwsh32="%SystemRoot%\system32\WindowsPowerShell\v1.0\powershell.exe"
-set pwsh64="%SystemRoot%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe"
-set cmd32="%ComSpec%"
-set cmd64="%SystemRoot%\SysWOW64\cmd.exe"
-set reg32="%SystemRoot%\system32\reg.exe"
-set reg64="%SystemRoot%\SysWOW64\reg.exe"
 :: ### START UAC SCRIPT ###
 
 if "%2"=="firstrun" exit
-%cmd32% /c "%0" null firstrun
+cmd /c "%0" null firstrun
 
 if "%1"=="skipuac" goto skipuacstart
 
@@ -34,7 +27,7 @@ exit /B
 setlocal & pushd .
 
 cd /d %~dp0
-%cmd32% /c "%0" skipuac firstrun
+cmd /c "%0" skipuac firstrun
 cd /d %~dp0
 
 :skipuacstart
@@ -63,16 +56,16 @@ IF %M%==3 GOTO 3
 IF %M%==4 GOTO 4
 IF %M%==5 GOTO 5
 :1
-%cmd32% /k %pwsh32% -Command Set-MpPreference -DisableRealtimeMonitoring $true
+call %SystemRoot%\system32\WindowsPowerShell\v1.0\powershell.exe -Command Set-MpPreference -DisableRealtimeMonitoring $true
 GOTO MENU
 :2
-%cmd32% /k %pwsh32%  -Command Set-MpPreference -DisableRealtimeMonitoring $false
+call %SystemRoot%\system32\WindowsPowerShell\v1.0\powershell.exe -Command Set-MpPreference -DisableRealtimeMonitoring $false
 GOTO MENU
 :3
-%cmd32% /k %reg32% add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender" /v DisableAntiSpyware /t REG_DWORD /d 1 /f
+call %SystemRoot%\system32\cmd.exe /k C:\Windows\System32\reg.exe add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender" /v DisableAntiSpyware /t REG_DWORD /d 1 /f
 GOTO MENU
 :4
-%cmd32% /k %Reg32% add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender" /v DisableAntiSpyware /t REG_DWORD /d 0 /f
+call %SystemRoot%\system32\cmd.exe /k C:\Windows\System32\reg.exe add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender" /v DisableAntiSpyware /t REG_DWORD /d 0 /f
 GOTO MENU
 :5
 exit
